@@ -2,10 +2,10 @@ import { NextRequest, NextResponse } from 'next/server'
 
 // PaySolutions API configuration
 const PAYSO_CONFIG = {
-  // Update with actual PaySolutions endpoint
-  PAYMENT_URL: process.env.PAYSO_PAYMENT_URL || 'https://pay.blockedge.earth/api/payso/redirect',
-  MERCHANT_ID: process.env.PAYSO_MERCHANT_ID || '',
-  API_KEY: process.env.PAYSO_API_KEY || ''
+  // PaySolutions payment redirect URL
+  PAYMENT_URL: 'https://payments.paysolutions.asia/payment',
+  MERCHANT_ID: process.env.PAYSO_MERCHANT_ID || '62551562',
+  // Add other required fields as needed
 }
 
 export async function POST(request: NextRequest) {
@@ -20,38 +20,28 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Option 1: If PaySo requires a POST to get payment URL
-    try {
-      const paysoResponse = await fetch(PAYSO_CONFIG.PAYMENT_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          orderid: orderId,
-          amount: amount,
-          currency: 'THB',
-          // Add other required PaySo parameters
-        })
-      })
+    // Create form data for PaySolutions redirect
+    // Based on standard PaySolutions integration
+    const formData = new URLSearchParams({
+      merchantId: PAYSO_CONFIG.MERCHANT_ID,
+      refNo: orderId, // Use our orderId as reference number
+      amount: amount.toFixed(2),
+      currencyCode: 'THB',
+      productDetail: `Carbon Credit Purchase - Order ${orderId}`,
+      // Add BlockEdge orderId for reference
+      userDefined1: orderId,
+      // Optional: Add customer info if available
+      customerName: 'Carbon Credit Buyer',
+      customerEmail: '',
+      customerPhone: '',
+      // Language
+      lang: 'TH',
+    })
 
-      if (paysoResponse.ok) {
-        const result = await paysoResponse.json()
-        if (result.paymentUrl) {
-          return NextResponse.json({
-            success: true,
-            paymentUrl: result.paymentUrl,
-            orderId
-          })
-        }
-      }
-    } catch (error) {
-      console.log('PaySo POST failed, falling back to redirect URL')
-    }
-
-    // Option 2: Direct redirect URL (if POST is not required)
-    // This follows the pattern from your curl example where orderId is already created
-    const paymentUrl = `https://pay.blockedge.earth/payment/${orderId}`
+    // Generate the payment redirect URL with query parameters
+    const paymentUrl = `${PAYSO_CONFIG.PAYMENT_URL}?${formData.toString()}`
+    
+    console.log('PaySolutions redirect URL:', paymentUrl)
     
     return NextResponse.json({
       success: true,

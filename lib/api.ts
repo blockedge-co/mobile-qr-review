@@ -47,31 +47,13 @@ export async function createOrder(orderData: OrderData): Promise<string> {
 }
 
 export async function processPayment(orderId: string, amount: number) {
-  try {
-    // Call server-side API to process payment
-    const response = await fetch('/api/process-payment', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ orderId, amount })
-    })
-
-    const result = await response.json()
-
-    if (!response.ok) {
-      throw new Error(result.error || 'Payment processing failed')
-    }
-
-    return result
-  } catch (error) {
-    console.error('Error processing payment:', error)
-    
-    // Fallback to direct URL if API fails
-    return {
-      success: true,
-      paymentUrl: `https://pay.blockedge.earth/payment/${orderId}`,
-      orderId
-    }
+  // For PaySolutions, we need to use a form POST, not a direct redirect
+  // So we'll redirect to our intermediate page that will auto-submit the form
+  const paymentUrl = `/payment/redirect?orderId=${orderId}&amount=${amount}`
+  
+  return {
+    success: true,
+    paymentUrl,
+    orderId
   }
 }
