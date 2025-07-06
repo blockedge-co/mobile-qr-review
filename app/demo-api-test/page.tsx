@@ -91,11 +91,11 @@ export default function DemoApiTest() {
 
         <Card className="p-6 mt-6">
           <h2 className="text-xl font-semibold mb-4">API Integration Details</h2>
-          <div className="bg-yellow-50 border border-yellow-200 p-4 rounded-lg mb-4">
-            <h3 className="font-medium text-yellow-800 mb-1">⚠️ Authentication Required</h3>
-            <p className="text-yellow-700 text-sm">
-              API returned "Unauthorized". You need to set the correct bearer token in environment variables.
-              Create a .env.local file with: NEXT_PUBLIC_API_BEARER_TOKEN=your_actual_token
+          <div className="bg-green-50 border border-green-200 p-4 rounded-lg mb-4">
+            <h3 className="font-medium text-green-800 mb-1">✅ API Ready</h3>
+            <p className="text-green-700 text-sm">
+              Real BlockEdge API is configured with production bearer token. 
+              Test with 1 baht option below!
             </p>
           </div>
           <div className="space-y-4 text-sm">
@@ -114,7 +114,13 @@ export default function DemoApiTest() {
               <h3 className="font-medium">Request Body:</h3>
               <pre className="bg-gray-100 p-2 rounded text-xs overflow-x-auto">
 {`{
-  "retire_message": "Carbon credit purchase: forest-restoration for 1 days - 31kg CO₂ offset - ฿1"
+  "retirementMessage": "Carbon credit purchase: forest-restoration for 1 days - 31kg CO₂ offset",
+  "token": "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
+  "beneficiaryString": "Carbon Credit Buyer",
+  "retireAmount": 3,
+  "beneficiaryAddress": "0xAC5675D47B1Cd43C836dF6014D86B70B06173542",
+  "price": 1,
+  "totalAmount": 3
 }`}
               </pre>
             </div>

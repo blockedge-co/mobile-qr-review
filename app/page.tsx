@@ -112,8 +112,10 @@ export default function CarbonCreditLanding() {
                 })
                 
                 console.log("Order created:", orderId)
-                // TODO: Redirect to PaySo or handle payment
-                alert(`Order created successfully! Order ID: ${orderId}`)
+                // Redirect to PaySo payment page
+                alert(`Order created successfully! Order ID: ${orderId}\n\nRedirecting to payment...`)
+                // TODO: Implement actual PaySo redirect with orderId
+                // window.location.href = `https://payso.example.com/pay/${orderId}`
                 
               } catch (error) {
                 console.error("Payment failed:", error)

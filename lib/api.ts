@@ -2,7 +2,13 @@
 import { API_CONFIG, getApiUrl } from './config'
 
 interface CreateOrderRequest {
-  retire_message: string
+  retirementMessage: string
+  token: string
+  beneficiaryString: string
+  retireAmount: number
+  beneficiaryAddress: string
+  price: number
+  totalAmount: number
 }
 
 interface CreateOrderResponse {
@@ -17,6 +23,19 @@ interface OrderData {
   autoRenewal: boolean
 }
 
+// Project token mapping
+const PROJECT_TOKENS: { [key: string]: string } = {
+  'forest-restoration': '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174',
+  'mangrove-restoration': '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174', 
+  'renewable-energy': '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174'
+}
+
+// Default beneficiary for testing
+const DEFAULT_BENEFICIARY = {
+  name: 'Carbon Credit Buyer',
+  address: '0xAC5675D47B1Cd43C836dF6014D86B70B06173542'
+}
+
 export async function createOrder(orderData: OrderData): Promise<string> {
   try {
     const controller = new AbortController()
@@ -29,7 +48,13 @@ export async function createOrder(orderData: OrderData): Promise<string> {
         'Authorization': `Bearer ${API_CONFIG.BEARER_TOKEN}`
       },
       body: JSON.stringify({
-        retire_message: `Carbon credit purchase: ${orderData.projectId} for ${orderData.duration} days - ${orderData.co2}kg CO₂ offset - ฿${orderData.price} ${orderData.autoRenewal ? '(Auto-renewal enabled)' : ''}`
+        retirementMessage: `Carbon credit purchase: ${orderData.projectId} for ${orderData.duration} days - ${orderData.co2}kg CO₂ offset`,
+        token: PROJECT_TOKENS[orderData.projectId] || PROJECT_TOKENS['forest-restoration'],
+        beneficiaryString: DEFAULT_BENEFICIARY.name,
+        retireAmount: Math.round(orderData.co2 / 10), // Convert kg to 100kg units (0.1 ton)
+        beneficiaryAddress: DEFAULT_BENEFICIARY.address,
+        price: orderData.price,
+        totalAmount: orderData.price * Math.round(orderData.co2 / 10)
       }),
       signal: controller.signal
     })
