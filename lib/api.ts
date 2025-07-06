@@ -46,18 +46,14 @@ export async function createOrder(orderData: OrderData): Promise<string> {
   }
 }
 
-export async function processPayment(orderId: string, amount: number) {
-  // This would integrate with PaySo API
-  // For now, just log the process
-  console.log('Processing payment:', { orderId, amount })
-  
-  // TODO: Implement PaySo integration
-  // POST to PaySo with orderid
-  // Return payment URL or confirmation
+export async function processPayment(orderId: string) {
+  // Generate PaySo payment URL
+  // According to the flow: POST orderid to PaySo
+  const paymentUrl = `https://pay.blockedge.earth/payment/${orderId}`
   
   return {
     success: true,
-    paymentUrl: `https://payso.example.com/pay/${orderId}`,
+    paymentUrl,
     orderId
   }
 }

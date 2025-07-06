@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { createOrder } from "@/lib/api"
+import { createOrder, processPayment } from "@/lib/api"
 import { Button } from "@/components/ui/button"
 import { LandingHeader } from "@/components/landing-header"
 import { LandingHero } from "@/components/landing-hero"
@@ -112,10 +112,17 @@ export default function CarbonCreditLanding() {
                 })
                 
                 console.log("Order created:", orderId)
-                // Redirect to PaySo payment page
-                alert(`Order created successfully! Order ID: ${orderId}\n\nRedirecting to payment...`)
-                // TODO: Implement actual PaySo redirect with orderId
-                // window.location.href = `https://payso.example.com/pay/${orderId}`
+                
+                // Process payment and get redirect URL
+                const paymentResult = await processPayment(orderId)
+                
+                if (paymentResult.success && paymentResult.paymentUrl) {
+                  console.log("Redirecting to payment:", paymentResult.paymentUrl)
+                  // Redirect to PaySo payment page
+                  window.location.href = paymentResult.paymentUrl
+                } else {
+                  throw new Error("Failed to generate payment URL")
+                }
                 
               } catch (error) {
                 console.error("Payment failed:", error)
