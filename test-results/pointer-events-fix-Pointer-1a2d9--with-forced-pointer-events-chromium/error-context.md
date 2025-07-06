@@ -7,7 +7,7 @@
   - img
   - text: Carbon Credits
   - img
-  - text: ✓
+  - text: Verified
 - heading "Offset Your Carbon Footprint" [level=1]
 - paragraph: Choose verified projects that make a real impact
 - text: 2.4M+
@@ -15,16 +15,15 @@
 - text: Tons Offset 850K+
 - img
 - text: Trees Protected
-- heading "Select Project" [level=2]
+- heading "Select Project & Duration" [level=2]
 - combobox:
   - text: 🇹🇭 Forest Restoration Thailand Northern Thailand
   - img
-  - text: Gold Standard 31 kg CO₂/day
-- heading "Choose Duration" [level=2]
-- combobox: 1 Month Popular 310 kg CO₂ offset ฿299 ฿10/day
+  - text: Gold Standard 31 kg CO₂/day 1 Month Popular ฿299 310 kg CO₂
+- text: Daily Impact 31 kg CO₂/day Total Offset 310 kg CO₂
 - heading "Auto-renewal" [level=3]
 - paragraph: Maintain consistent impact
-- switch
+- switch "Enable auto-renewal"
 - heading "Payment" [level=2]
 - img
 - text: PaySolution Secure payment gateway
@@ -32,7 +31,7 @@
 - text: Bank-grade security • SSL encrypted
 - heading "Summary" [level=2]
 - text: CO₂ Offset 310 kg Duration 1 Month Auto-renewal No Total ฿299
-- checkbox [checked]
+- checkbox "Agree to terms and conditions" [checked]
 - text: I agree to the terms and conditions
 - heading "Leave a Review" [level=2]
 - paragraph: Help us improve by leaving a review on Google!
