@@ -1,19 +1,4 @@
-// API utilities for order creation and payment processing
-import { API_CONFIG, getApiUrl } from './config'
-
-interface CreateOrderRequest {
-  retirementMessage: string
-  token: string
-  beneficiaryString: string
-  retireAmount: number
-  beneficiaryAddress: string
-  price: number
-  totalAmount: number
-}
-
-interface CreateOrderResponse {
-  orderid: string
-}
+// Client-side API utilities
 
 interface OrderData {
   projectId: string
@@ -23,63 +8,38 @@ interface OrderData {
   autoRenewal: boolean
 }
 
-// Project token mapping
-const PROJECT_TOKENS: { [key: string]: string } = {
-  'forest-restoration': '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174',
-  'mangrove-restoration': '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174', 
-  'renewable-energy': '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174'
-}
-
-// Default beneficiary for testing
-const DEFAULT_BENEFICIARY = {
-  name: 'Carbon Credit Buyer',
-  address: '0xAC5675D47B1Cd43C836dF6014D86B70B06173542'
+interface CreateOrderResponse {
+  orderid: string
+  message?: string
+  error?: string
 }
 
 export async function createOrder(orderData: OrderData): Promise<string> {
   try {
-    const controller = new AbortController()
-    const timeoutId = setTimeout(() => controller.abort(), API_CONFIG.TIMEOUT)
-
-    const response = await fetch(getApiUrl(API_CONFIG.ENDPOINTS.CREATE_ORDER), {
+    const response = await fetch('/api/create-order', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${API_CONFIG.BEARER_TOKEN}`
       },
-      body: JSON.stringify({
-        retirementMessage: `Carbon credit purchase: ${orderData.projectId} for ${orderData.duration} days - ${orderData.co2}kg CO₂ offset`,
-        token: PROJECT_TOKENS[orderData.projectId] || PROJECT_TOKENS['forest-restoration'],
-        beneficiaryString: DEFAULT_BENEFICIARY.name,
-        retireAmount: Math.round(orderData.co2 / 10), // Convert kg to 100kg units (0.1 ton)
-        beneficiaryAddress: DEFAULT_BENEFICIARY.address,
-        price: orderData.price,
-        totalAmount: orderData.price * Math.round(orderData.co2 / 10)
-      }),
-      signal: controller.signal
+      body: JSON.stringify(orderData)
     })
 
-    clearTimeout(timeoutId)
+    const result: CreateOrderResponse = await response.json()
 
     if (!response.ok) {
-      throw new Error(`Order creation failed: ${response.status} ${response.statusText}`)
+      throw new Error(result.error || `Order creation failed: ${response.status}`)
     }
 
-    const result: CreateOrderResponse = await response.json()
+    if (!result.orderid) {
+      throw new Error('No order ID received')
+    }
+
     return result.orderid
   } catch (error) {
     console.error('Error creating order:', error)
     
     if (error instanceof Error) {
-      if (error.name === 'AbortError') {
-        throw new Error('Request timeout. Please try again.')
-      }
-      if (error.message.includes('401')) {
-        throw new Error('Unauthorized. Please check API credentials.')
-      }
-      if (error.message.includes('404')) {
-        throw new Error('API endpoint not found. Please contact support.')
-      }
+      throw error
     }
     
     throw new Error('Failed to create order. Please try again.')
