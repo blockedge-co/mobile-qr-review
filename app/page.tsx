@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { LandingHeader } from "@/components/landing-header"
 import { LandingHero } from "@/components/landing-hero"
-import { CombinedSelection } from "@/components/combined-selection"
+import { AccordionListbox } from "@/components/accordion-listbox"
 import { AutoRenewal } from "@/components/auto-renewal"
 import { PaymentSection } from "@/components/payment-section"
 import { OrderSummary } from "@/components/order-summary"
@@ -70,7 +70,7 @@ export default function CarbonCreditLanding() {
       <LandingHero isLoaded={isLoaded} />
 
       <div className="px-4 py-8 max-w-md mx-auto space-y-6 sm:space-y-8 overflow-hidden">
-        <CombinedSelection
+        <AccordionListbox
           selectedOption={selectedOption}
           setSelectedOption={setSelectedOption}
           projects={projects}
