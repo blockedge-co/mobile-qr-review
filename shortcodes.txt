@@ -1,0 +1,17 @@
+/forward-context   → Save current convo/context into a new GH issue for next session.
+/retrospective     → Write a diary of lessons learned; include "Lessons Learned" section.
+/new-session       → Fetch context from the last issue or PR; summarize open issues and tasks; remind about GH Flow & tmux.
+/compact           → Compact the context now for this feature before switching sessions.
+/nnn               → Start working on feature number NNN.
+/frontend    → Enter “frontend” mode: focus on UI/UX, component design, CSS/TSX snippets, and accessibility.
+/backend     → Enter “backend” mode: focus on API endpoints, database models, business logic, and security.
+/e2e         → Generate end-to-end test scenarios, Cypress/Playwright scripts, and testing matrices.
+/debug       → Trigger debugging mode: analyze error logs, suggest breakpoints, and propose fixes.
+/doc         → Create or update documentation: README sections, API docs, or architecture diagrams.
+/test        → Generate unit tests for the latest code changes (Jest, pytest, etc.).
+/lint        → Run or fix linter errors: suggest ESLint/Pylint configurations and auto-fixes.
+/perf        → Performance analysis: suggest profiling commands, identify bottlenecks, and propose optimizations.
+/deploy      → Deployment mode: generate CI/CD pipeline YAML (GitHub Actions, Jenkins, etc.) and release notes.
+/qa          → QA checklist: create bug reports, test plans, and regression matrices.
+/security    → Security audit: scan for common vulnerabilities, propose mitigations, and output a security report.
+/ux          → UX review: provide usability feedback, user flows, and wireframe suggestions.
