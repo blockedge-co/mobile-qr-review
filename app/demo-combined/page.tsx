@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { createOrder, processPayment } from "@/lib/api"
 import { Button } from "@/components/ui/button"
 import { LandingHeader } from "@/components/landing-header"
 import { LandingHero } from "@/components/landing-hero"
@@ -16,6 +17,7 @@ export default function DemoCombinedSelection() {
   const [selectedOption, setSelectedOption] = useState("forest-restoration-30")
   const [autoRenewal, setAutoRenewal] = useState(false)
   const [isLoaded, setIsLoaded] = useState(false)
+  const [isProcessingPayment, setIsProcessingPayment] = useState(false)
 
   useEffect(() => {
     setIsLoaded(true)
@@ -118,12 +120,56 @@ export default function DemoCombinedSelection() {
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4">
         <div className="max-w-md mx-auto">
           <Button
-            className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-4 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
-            onClick={() => {
-              console.log("Processing payment...")
+            className="w-full bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white py-4 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+            onClick={async () => {
+              if (isProcessingPayment) return
+              
+              setIsProcessingPayment(true)
+              try {
+                console.log("Creating order...")
+                const orderId = await createOrder({
+                  projectId: projectId || "forest-restoration",
+                  duration: durationDays || "30",
+                  price: selectedPrice,
+                  co2: selectedCO2,
+                  autoRenewal
+                })
+                
+                console.log("Order created:", orderId)
+                
+                // Process payment and get redirect URL
+                const paymentResult = await processPayment(orderId, selectedPrice)
+                
+                if (paymentResult.success && paymentResult.paymentUrl) {
+                  console.log("Redirecting to payment:", paymentResult.paymentUrl)
+                  
+                  // Check if user wants to bypass (for testing)
+                  const urlParams = new URLSearchParams(window.location.search)
+                  const bypassMode = urlParams.get('bypass') === 'true'
+                  
+                  if (bypassMode) {
+                    // Bypass PaySolutions and go directly to success page
+                    window.location.href = `/payment/success?orderId=${orderId}&status=bypass`
+                  } else {
+                    // Redirect to PaySo payment page
+                    window.location.href = paymentResult.paymentUrl
+                  }
+                } else {
+                  throw new Error("Failed to generate payment URL")
+                }
+                
+              } catch (error) {
+                console.error("Payment failed:", error)
+                alert("Payment failed. Please try again.")
+              } finally {
+                setIsProcessingPayment(false)
+              }
             }}
+            disabled={isProcessingPayment}
           >
-            Complete Purchase - ฿{selectedPrice}
+            <span className="truncate">
+              {isProcessingPayment ? "Processing..." : `Complete Purchase - ฿${selectedPrice}`}
+            </span>
           </Button>
           <div className="text-center mt-2 text-xs text-gray-500">🔒 Secure payment • 30-day guarantee</div>
         </div>
