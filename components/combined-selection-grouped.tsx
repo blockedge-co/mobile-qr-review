@@ -80,7 +80,7 @@ export function CombinedSelectionGrouped({
         <SelectTrigger className="w-full mb-4">
           <SelectValue>{getSelectedDisplay()}</SelectValue>
         </SelectTrigger>
-        <SelectContent className="w-full max-h-[500px]">
+        <SelectContent className="w-full max-h-[75vh] sm:max-h-[70vh]">
           {projects.map((project) => (
             <SelectGroup key={project.id}>
               <SelectLabel className="px-4 py-3 bg-gray-50 border-b border-gray-100">

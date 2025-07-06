@@ -77,7 +77,7 @@ export function CombinedSelection({
         <SelectTrigger className="w-full mb-4">
           <SelectValue placeholder="Select a project and duration" />
         </SelectTrigger>
-        <SelectContent className="w-full max-h-[400px]">
+        <SelectContent className="w-full max-h-[75vh] sm:max-h-[70vh]">
           {combinedOptions.map((option) => (
             <SelectItem key={option.id} value={option.id} className="py-4 min-h-[9rem]">
               <div className="w-full space-y-3 flex flex-col justify-center min-h-[8rem]">

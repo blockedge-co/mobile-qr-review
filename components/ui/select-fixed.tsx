@@ -121,7 +121,7 @@ const SelectContent = React.forwardRef<
       <SelectPrimitive.Content
         ref={ref}
         className={cn(
-          "relative z-[9999] max-h-[60vh] min-w-0 w-full max-w-[calc(100vw-1rem)] sm:max-w-[28rem] overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md",
+          "relative z-[9999] max-h-[75vh] sm:max-h-[70vh] min-w-0 w-full max-w-[calc(100vw-1rem)] sm:max-w-[28rem] overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md",
           // Animation improvements
           "data-[state=open]:animate-in data-[state=closed]:animate-out",
           "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
@@ -151,7 +151,7 @@ const SelectContent = React.forwardRef<
               "w-full min-w-[calc(var(--radix-select-trigger-width))] max-w-[calc(100vw-1rem)]"
           )}
           style={{ 
-            maxHeight: 'calc(60vh - 4rem)', 
+            maxHeight: 'calc(75vh - 4rem)', 
             minHeight: 'auto',
             // Ensure scroll works properly
             overscrollBehavior: 'contain'
