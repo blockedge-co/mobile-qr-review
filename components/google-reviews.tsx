@@ -21,13 +21,13 @@ export function GoogleReviews({ isLoaded }: GoogleReviewsProps) {
       <h2 className="text-xl font-semibold text-gray-900 mb-6">Leave a Review</h2>
 
       <div className="text-center">
-        <p className="text-gray-700 mb-4">Help us improve by leaving a review on Google!</p>
+        <p className="text-gray-700 mb-4 px-2 text-sm sm:text-base">Help us improve by leaving a review on Google!</p>
         <Button
           onClick={() => window.open(googleReviewLink, "_blank")}
-          className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg"
+          className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg w-full sm:w-auto"
         >
-          <Star className="h-5 w-5 mr-2 fill-current text-yellow-400" />
-          Write a Google Review
+          <Star className="h-5 w-5 mr-2 fill-current text-yellow-400 flex-shrink-0" />
+          <span className="truncate">Write a Google Review</span>
         </Button>
       </div>
     </Card>

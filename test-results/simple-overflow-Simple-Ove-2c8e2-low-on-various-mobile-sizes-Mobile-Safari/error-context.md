@@ -1,0 +1,41 @@
+# Page snapshot
+
+```yaml
+- banner:
+  - button "Back":
+    - img
+  - img
+  - text: Carbon Credits
+  - img
+  - text: ✓
+- heading "Offset Your Carbon Footprint" [level=1]
+- paragraph: Choose verified projects that make a real impact
+- text: 2.4M+
+- img
+- text: Tons Offset 850K+
+- img
+- text: Trees Protected
+- heading "Select Project" [level=2]
+- combobox
+- heading "Choose Duration" [level=2]
+- combobox
+- heading "Auto-renewal" [level=3]
+- paragraph: Maintain consistent impact
+- switch
+- heading "Payment" [level=2]
+- img
+- text: PaySolution Secure payment gateway
+- img
+- text: Bank-grade security • SSL encrypted
+- heading "Summary" [level=2]
+- text: CO₂ Offset 310 kg Duration 1 Month Auto-renewal No Total ฿299
+- checkbox [checked]
+- text: I agree to the terms and conditions
+- heading "Leave a Review" [level=2]
+- paragraph: Help us improve by leaving a review on Google!
+- button "Write a Google Review":
+  - img
+  - text: Write a Google Review
+- button "Complete Purchase - ฿299"
+- text: 🔒 Secure payment • 30-day guarantee
+```

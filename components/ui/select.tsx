@@ -75,7 +75,7 @@ const SelectContent = React.forwardRef<
     <SelectPrimitive.Content
       ref={ref}
       className={cn(
-        "relative z-50 max-h-[80vh] min-w-[calc(100vw-2rem)] sm:min-w-[24rem] overflow-auto rounded-md border bg-popover text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:translate-x-1 data-[side=top]:slide-in-from-bottom-2",
+        "relative z-50 max-h-[60vh] min-w-0 w-full max-w-[calc(100vw-1rem)] sm:max-w-[28rem] overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:translate-x-1 data-[side=top]:slide-in-from-bottom-2",
         position === "popper" &&
           "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
         className
@@ -86,11 +86,11 @@ const SelectContent = React.forwardRef<
       <SelectScrollUpButton />
       <SelectPrimitive.Viewport
         className={cn(
-          "p-2",
+          "p-1 overflow-y-auto",
           position === "popper" &&
-            "w-full min-w-[calc(var(--radix-select-trigger-width)+2rem)]"
+            "w-full min-w-[calc(var(--radix-select-trigger-width))] max-w-[calc(100vw-1rem)]"
         )}
-        style={{ maxHeight: 'none', minHeight: 'auto' }}
+        style={{ maxHeight: 'calc(60vh - 4rem)', minHeight: 'auto' }}
       >
         {children}
       </SelectPrimitive.Viewport>
@@ -119,7 +119,7 @@ const SelectItem = React.forwardRef<
   <SelectPrimitive.Item
     ref={ref}
     className={cn(
-      "relative flex w-full cursor-default select-none items-start rounded-sm py-3 pl-8 pr-3 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 min-h-fit",
+      "relative flex w-full cursor-default select-none items-start rounded-sm py-2.5 pl-8 pr-3 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 min-h-fit",
       className
     )}
     {...props}
@@ -130,7 +130,7 @@ const SelectItem = React.forwardRef<
       </SelectPrimitive.ItemIndicator>
     </span>
 
-    <SelectPrimitive.ItemText className="flex-1">{children}</SelectPrimitive.ItemText>
+    <SelectPrimitive.ItemText className="flex-1 min-w-0 break-words">{children}</SelectPrimitive.ItemText>
   </SelectPrimitive.Item>
 ))
 SelectItem.displayName = SelectPrimitive.Item.displayName
