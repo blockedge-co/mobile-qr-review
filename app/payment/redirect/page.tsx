@@ -16,7 +16,7 @@ function PaymentRedirectContent() {
     // Show loading state briefly before redirect
     const timer = setTimeout(() => {
       setIsRedirecting(false)
-    }, 500)
+    }, 1000)
     return () => clearTimeout(timer)
   }, [])
 
@@ -40,9 +40,14 @@ function PaymentRedirectContent() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
             </svg>
           </div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Redirecting to Payment</h1>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">
+            {isRedirecting ? 'Preparing Payment...' : 'Ready for Payment'}
+          </h1>
           <p className="text-gray-600">Order ID: {orderId}</p>
           <p className="text-gray-600">Amount: ฿{amount}</p>
+          {!isRedirecting && (
+            <p className="text-green-600 mt-2">Form loaded - You can now submit to PaySolutions below</p>
+          )}
         </div>
         
         <div className="mt-8">

@@ -15,13 +15,17 @@ export function PaymentForm({ orderId, amount, merchantId }: PaymentFormProps) {
     // Set origin after component mounts (client-side only)
     setOrigin(window.location.origin)
     
-    // Auto-submit form on mount
-    const form = document.getElementById('payso-form') as HTMLFormElement
-    if (form) {
-      // Commented out auto-submit for debugging
-      // form.submit()
-    }
-  }, [])
+    // Auto-submit form after origin is set
+    const timer = setTimeout(() => {
+      const form = document.getElementById('payso-form') as HTMLFormElement
+      if (form && origin) {
+        console.log('Auto-submitting form to PaySolutions...')
+        form.submit()
+      }
+    }, 1500) // Wait for origin to be set
+    
+    return () => clearTimeout(timer)
+  }, [origin])
 
   // Log form data for debugging
   console.log('PaySolutions Form Data:', {
@@ -62,9 +66,14 @@ export function PaymentForm({ orderId, amount, merchantId }: PaymentFormProps) {
         <input type="hidden" name="merchantDefined5" value="" />
         
         {/* Debug button - remove in production */}
-        <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded">
-          Submit to PaySolutions (Debug)
+        <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">
+          {origin ? 'Submit to PaySolutions (Manual)' : 'Loading...'}
         </button>
+        
+        {/* Auto-submit info */}
+        <div className="mt-2 text-xs text-gray-500">
+          Auto-submit will trigger in 1.5 seconds after page load
+        </div>
       </form>
       
       {/* Show form data for debugging */}
