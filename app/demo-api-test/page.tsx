@@ -82,7 +82,7 @@ export default function DemoApiTest() {
                 <h3 className="font-medium text-red-800 mb-1">Error</h3>
                 <p className="text-red-700">{error}</p>
                 <p className="text-sm text-red-600 mt-2">
-                  Make sure the API server is running on localhost:3000
+                  Make sure the API server is accessible at https://pay.blockedge.earth/
                 </p>
               </div>
             )}
@@ -91,16 +91,23 @@ export default function DemoApiTest() {
 
         <Card className="p-6 mt-6">
           <h2 className="text-xl font-semibold mb-4">API Integration Details</h2>
+          <div className="bg-yellow-50 border border-yellow-200 p-4 rounded-lg mb-4">
+            <h3 className="font-medium text-yellow-800 mb-1">⚠️ Authentication Required</h3>
+            <p className="text-yellow-700 text-sm">
+              API returned "Unauthorized". You need to set the correct bearer token in environment variables.
+              Create a .env.local file with: NEXT_PUBLIC_API_BEARER_TOKEN=your_actual_token
+            </p>
+          </div>
           <div className="space-y-4 text-sm">
             <div>
               <h3 className="font-medium">Endpoint:</h3>
-              <code className="bg-gray-100 px-2 py-1 rounded">POST http://localhost:3000/api/create-order</code>
+              <code className="bg-gray-100 px-2 py-1 rounded">POST https://pay.blockedge.earth/api/create-order</code>
             </div>
             <div>
               <h3 className="font-medium">Headers:</h3>
               <ul className="bg-gray-100 p-2 rounded">
                 <li>Content-Type: application/json</li>
-                <li>Authorization: Bearer YOUR_SECRET_BEARER_TOKEN_HERE</li>
+                <li>Authorization: Bearer [from environment variable]</li>
               </ul>
             </div>
             <div>

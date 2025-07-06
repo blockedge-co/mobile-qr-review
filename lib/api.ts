@@ -1,4 +1,5 @@
 // API utilities for order creation and payment processing
+import { API_CONFIG, getApiUrl } from './config'
 
 interface CreateOrderRequest {
   retire_message: string
@@ -18,16 +19,22 @@ interface OrderData {
 
 export async function createOrder(orderData: OrderData): Promise<string> {
   try {
-    const response = await fetch('http://localhost:3000/api/create-order', {
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), API_CONFIG.TIMEOUT)
+
+    const response = await fetch(getApiUrl(API_CONFIG.ENDPOINTS.CREATE_ORDER), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer YOUR_SECRET_BEARER_TOKEN_HERE'
+        'Authorization': `Bearer ${API_CONFIG.BEARER_TOKEN}`
       },
       body: JSON.stringify({
         retire_message: `Carbon credit purchase: ${orderData.projectId} for ${orderData.duration} days - ${orderData.co2}kg CO₂ offset - ฿${orderData.price} ${orderData.autoRenewal ? '(Auto-renewal enabled)' : ''}`
-      })
+      }),
+      signal: controller.signal
     })
+
+    clearTimeout(timeoutId)
 
     if (!response.ok) {
       throw new Error(`Order creation failed: ${response.status} ${response.statusText}`)
@@ -37,6 +44,19 @@ export async function createOrder(orderData: OrderData): Promise<string> {
     return result.orderid
   } catch (error) {
     console.error('Error creating order:', error)
+    
+    if (error instanceof Error) {
+      if (error.name === 'AbortError') {
+        throw new Error('Request timeout. Please try again.')
+      }
+      if (error.message.includes('401')) {
+        throw new Error('Unauthorized. Please check API credentials.')
+      }
+      if (error.message.includes('404')) {
+        throw new Error('API endpoint not found. Please contact support.')
+      }
+    }
+    
     throw new Error('Failed to create order. Please try again.')
   }
 }
