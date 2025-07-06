@@ -114,7 +114,7 @@ export default function CarbonCreditLanding() {
                 console.log("Order created:", orderId)
                 
                 // Process payment and get redirect URL
-                const paymentResult = await processPayment(orderId)
+                const paymentResult = await processPayment(orderId, selectedPrice)
                 
                 if (paymentResult.success && paymentResult.paymentUrl) {
                   console.log("Redirecting to payment:", paymentResult.paymentUrl)

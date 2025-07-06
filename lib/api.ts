@@ -46,14 +46,32 @@ export async function createOrder(orderData: OrderData): Promise<string> {
   }
 }
 
-export async function processPayment(orderId: string) {
-  // Generate PaySo payment URL
-  // According to the flow: POST orderid to PaySo
-  const paymentUrl = `https://pay.blockedge.earth/payment/${orderId}`
-  
-  return {
-    success: true,
-    paymentUrl,
-    orderId
+export async function processPayment(orderId: string, amount: number) {
+  try {
+    // Call server-side API to process payment
+    const response = await fetch('/api/process-payment', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ orderId, amount })
+    })
+
+    const result = await response.json()
+
+    if (!response.ok) {
+      throw new Error(result.error || 'Payment processing failed')
+    }
+
+    return result
+  } catch (error) {
+    console.error('Error processing payment:', error)
+    
+    // Fallback to direct URL if API fails
+    return {
+      success: true,
+      paymentUrl: `https://pay.blockedge.earth/payment/${orderId}`,
+      orderId
+    }
   }
 }
