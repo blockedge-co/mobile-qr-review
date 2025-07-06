@@ -45,17 +45,13 @@ function PaymentRedirectContent() {
           <p className="text-gray-600">Amount: ฿{amount}</p>
         </div>
         
-        {!isRedirecting && (
+        <div className="mt-8">
           <PaymentForm 
             orderId={orderId}
             amount={amount}
             merchantId={merchantId}
           />
-        )}
-        
-        <p className="text-sm text-gray-500 mt-4">
-          You will be redirected to PaySolutions...
-        </p>
+        </div>
       </div>
     </div>
   )
