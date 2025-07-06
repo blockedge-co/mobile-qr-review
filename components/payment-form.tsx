@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 interface PaymentFormProps {
   orderId: string
@@ -9,11 +9,17 @@ interface PaymentFormProps {
 }
 
 export function PaymentForm({ orderId, amount, merchantId }: PaymentFormProps) {
+  const [origin, setOrigin] = useState('')
+  
   useEffect(() => {
+    // Set origin after component mounts (client-side only)
+    setOrigin(window.location.origin)
+    
     // Auto-submit form on mount
     const form = document.getElementById('payso-form') as HTMLFormElement
     if (form) {
-      form.submit()
+      // Commented out auto-submit for debugging
+      // form.submit()
     }
   }, [])
 
@@ -45,8 +51,8 @@ export function PaymentForm({ orderId, amount, merchantId }: PaymentFormProps) {
         <input type="hidden" name="lang" value="TH" />
         
         {/* Callback URLs - often required by payment gateways */}
-        <input type="hidden" name="backendReturnUrl" value={`${window.location.origin}/api/payment/callback`} />
-        <input type="hidden" name="frontendReturnUrl" value={`${window.location.origin}/payment/success?orderId=${orderId}`} />
+        <input type="hidden" name="backendReturnUrl" value={`${origin}/api/payment/callback`} />
+        <input type="hidden" name="frontendReturnUrl" value={`${origin}/payment/success?orderId=${orderId}`} />
         
         {/* Additional fields that might be required */}
         <input type="hidden" name="merchantDefined1" value={orderId} />
@@ -68,6 +74,9 @@ export function PaymentForm({ orderId, amount, merchantId }: PaymentFormProps) {
         <p>refNo: {orderId}</p>
         <p>amount: {amount.toFixed(2)}</p>
         <p>currencyCode: THB</p>
+        <p>backendReturnUrl: {origin}/api/payment/callback</p>
+        <p>frontendReturnUrl: {origin}/payment/success</p>
+        <p>Status: {origin ? 'Ready' : 'Loading...'}</p>
       </div>
     </>
   )
