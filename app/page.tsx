@@ -118,8 +118,20 @@ export default function CarbonCreditLanding() {
                 
                 if (paymentResult.success && paymentResult.paymentUrl) {
                   console.log("Redirecting to payment:", paymentResult.paymentUrl)
-                  // Redirect to PaySo payment page
-                  window.location.href = paymentResult.paymentUrl
+                  
+                  // Check if user wants to bypass (for testing)
+                  const urlParams = new URLSearchParams(window.location.search)
+                  const bypassMode = urlParams.get('bypass') === 'true'
+                  
+                  if (bypassMode) {
+                    // Bypass PaySolutions and go directly to success page
+                    window.location.href = `/payment/success?orderId=${orderId}&status=bypass`
+                  } else {
+                    // Add bypass option to payment URL
+                    const bypassUrl = `${paymentResult.paymentUrl}${paymentResult.paymentUrl.includes('?') ? '&' : '?'}bypass=true`
+                    // Redirect to PaySo payment page with bypass option
+                    window.location.href = paymentResult.paymentUrl
+                  }
                 } else {
                   throw new Error("Failed to generate payment URL")
                 }
