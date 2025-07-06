@@ -90,6 +90,102 @@ body {
     -moz-appearance: none;
     appearance: none;
   }
+  
+  /* Critical dropdown/collapse fixes */
+  html, body {
+    position: relative !important;
+    pointer-events: auto !important;
+  }
+  
+  /* Ensure body can be clicked when dropdowns are open */
+  body[data-scroll-locked] {
+    pointer-events: auto !important;
+  }
+  
+  [data-radix-portal] {
+    z-index: 9999 !important;
+    pointer-events: auto !important;
+    position: fixed !important;
+  }
+  
+  [data-radix-popper-content-wrapper] {
+    z-index: 9999 !important;
+    pointer-events: auto !important;
+    position: fixed !important;
+  }
+  
+  /* Prevent pointer event conflicts */
+  [data-state="open"] {
+    pointer-events: auto !important;
+  }
+  
+  /* Ensure dropdown content is always clickable */
+  [role="listbox"] {
+    z-index: 10000 !important;
+    pointer-events: auto !important;
+    position: relative !important;
+  }
+  
+  [role="option"] {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+    position: relative !important;
+  }
+  
+  /* Fix for dropdown trigger getting stuck */
+  [role="combobox"] {
+    transition: all 150ms ease-in-out !important;
+    position: relative !important;
+    pointer-events: auto !important;
+  }
+  
+  [role="combobox"][data-state="open"] {
+    outline: 2px solid rgb(34 197 94 / 0.5) !important;
+    z-index: 1 !important;
+  }
+  
+  /* Animation performance improvements */
+  [data-radix-select-content] {
+    transform-origin: var(--radix-select-content-transform-origin) !important;
+    animation-duration: 150ms !important;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1) !important;
+    will-change: opacity, transform !important;
+  }
+  
+  /* Prevent scroll lock from blocking interactions */
+  [data-scroll-locked] * {
+    pointer-events: auto !important;
+  }
+  
+  /* Force clickable areas for testing */
+  .playwright-testing body {
+    pointer-events: auto !important;
+  }
+  
+  .playwright-testing html {
+    pointer-events: auto !important;
+  }
+  
+  /* Mobile specific dropdown fixes */
+  @media (max-width: 768px) {
+    [data-radix-select-content] {
+      max-width: calc(100vw - 2rem) !important;
+      max-height: calc(60vh - 2rem) !important;
+      margin: 1rem !important;
+      position: fixed !important;
+    }
+    
+    [role="listbox"] {
+      max-width: calc(100vw - 2rem) !important;
+      max-height: calc(60vh - 2rem) !important;
+      position: relative !important;
+    }
+  }
+  
+  /* Backdrop prevention for better outside clicks */
+  .radix-select-content {
+    isolation: isolate !important;
+  }
 }
 
 @layer base {

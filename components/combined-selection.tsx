@@ -79,8 +79,8 @@ export function CombinedSelection({
         </SelectTrigger>
         <SelectContent className="w-full max-h-[400px]">
           {combinedOptions.map((option) => (
-            <SelectItem key={option.id} value={option.id} className="py-4 min-h-[8rem]">
-              <div className="w-full space-y-3 flex flex-col justify-center min-h-[7rem]">
+            <SelectItem key={option.id} value={option.id} className="py-4 min-h-[9rem]">
+              <div className="w-full space-y-3 flex flex-col justify-center min-h-[8rem]">
                 {/* Project Info */}
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-start gap-3 flex-1">

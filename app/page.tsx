@@ -47,13 +47,16 @@ export default function CarbonCreditLanding() {
   ]
 
   const durations = [
-    { days: "7", price: 89, co2: 72, label: "1 Week" },
-    { days: "30", price: 299, co2: 310, label: "1 Month", popular: true },
-    { days: "90", price: 799, co2: 930, label: "3 Months" },
+    { days: "7", price: 89, co2: 217, label: "1 Week" }, // ~31 kg/day * 7 days = 217 kg
+    { days: "30", price: 299, co2: 930, label: "1 Month", popular: true }, // ~31 kg/day * 30 days = 930 kg
+    { days: "90", price: 799, co2: 2790, label: "3 Months" }, // ~31 kg/day * 90 days = 2790 kg
   ]
 
   // Parse the selected option to get project and duration
-  const [selectedProjectId, selectedDurationDays] = selectedOption.split('-')
+  // Expected format: "project-id-duration" (e.g., "forest-restoration-30")
+  const parts = selectedOption.split('-')
+  const selectedDurationDays = parts[parts.length - 1] // Last part is always duration
+  const selectedProjectId = parts.slice(0, -1).join('-') // Everything before last part is project ID
   const selectedProject = projects.find(p => p.id === selectedProjectId)
   const selectedDuration = durations.find(d => d.days === selectedDurationDays)
   
