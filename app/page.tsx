@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { createOrder } from "@/lib/api"
 import { Button } from "@/components/ui/button"
 import { LandingHeader } from "@/components/landing-header"
 import { LandingHero } from "@/components/landing-hero"
@@ -14,6 +15,7 @@ export default function CarbonCreditLanding() {
   const [selectedOption, setSelectedOption] = useState("forest-restoration-30")
   const [autoRenewal, setAutoRenewal] = useState(false)
   const [isLoaded, setIsLoaded] = useState(false)
+  const [isProcessingPayment, setIsProcessingPayment] = useState(false)
 
   useEffect(() => {
     setIsLoaded(true)
@@ -47,6 +49,7 @@ export default function CarbonCreditLanding() {
   ]
 
   const durations = [
+    { days: "1", price: 1, co2: 31, label: "1 Day (Test)" }, // 1 baht for testing
     { days: "7", price: 89, co2: 217, label: "1 Week" }, // ~31 kg/day * 7 days = 217 kg
     { days: "30", price: 299, co2: 930, label: "1 Month", popular: true }, // ~31 kg/day * 30 days = 930 kg
     { days: "90", price: 799, co2: 2790, label: "3 Months" }, // ~31 kg/day * 90 days = 2790 kg
@@ -94,11 +97,36 @@ export default function CarbonCreditLanding() {
         <div className="max-w-md mx-auto overflow-hidden">
           <Button
             className="w-full bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white py-4 px-6 text-base sm:text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden mobile-button focus-visible-ring"
-            onClick={() => {
-              console.log("Processing payment...")
+            onClick={async () => {
+              if (isProcessingPayment) return
+              
+              setIsProcessingPayment(true)
+              try {
+                console.log("Creating order...")
+                const orderId = await createOrder({
+                  projectId: selectedProjectId || "forest-restoration",
+                  duration: selectedDurationDays || "30",
+                  price: selectedPrice,
+                  co2: selectedCO2,
+                  autoRenewal
+                })
+                
+                console.log("Order created:", orderId)
+                // TODO: Redirect to PaySo or handle payment
+                alert(`Order created successfully! Order ID: ${orderId}`)
+                
+              } catch (error) {
+                console.error("Payment failed:", error)
+                alert("Payment failed. Please try again.")
+              } finally {
+                setIsProcessingPayment(false)
+              }
             }}
+            disabled={isProcessingPayment}
           >
-            <span className="truncate">Complete Purchase - ฿{selectedPrice}</span>
+            <span className="truncate">
+              {isProcessingPayment ? "Processing..." : `Complete Purchase - ฿${selectedPrice}`}
+            </span>
           </Button>
           <div className="text-center mt-2 text-xs text-gray-500 px-2">
             <span className="inline-flex items-center gap-1">
