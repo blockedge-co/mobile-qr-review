@@ -12,7 +12,7 @@ interface LandingHeaderProps {
 export function LandingHeader({ isLoaded }: LandingHeaderProps) {
   return (
     <header
-      className={`bg-white border-b border-gray-100 sticky top-0 z-50 transition-all duration-500 safe-area-inset-top ${
+      className={`bg-white border-b border-gray-100 sticky top-0 z-40 transition-all duration-500 safe-area-inset-top ${
         isLoaded ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
       }`}
     >

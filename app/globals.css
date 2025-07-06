@@ -114,6 +114,12 @@ body {
     position: fixed !important;
   }
   
+  /* Ensure dropdown content always appears above header */
+  [data-radix-select-content] {
+    z-index: 9999 !important;
+    position: fixed !important;
+  }
+  
   /* Prevent pointer event conflicts */
   [data-state="open"] {
     pointer-events: auto !important;
@@ -124,6 +130,19 @@ body {
     z-index: 10000 !important;
     pointer-events: auto !important;
     position: relative !important;
+  }
+  
+  /* Z-index hierarchy for proper layering */
+  .header-sticky {
+    z-index: 50 !important;
+  }
+  
+  .dropdown-content {
+    z-index: 9999 !important;
+  }
+  
+  .dropdown-trigger-active {
+    z-index: 100 !important;
   }
   
   [role="option"] {
@@ -185,6 +204,19 @@ body {
   /* Backdrop prevention for better outside clicks */
   .radix-select-content {
     isolation: isolate !important;
+  }
+  
+  /* Force dropdown to be above all other content */
+  [data-radix-select-content] {
+    z-index: 9999 !important;
+    position: fixed !important;
+    isolation: isolate !important;
+  }
+  
+  /* Ensure the select trigger gets proper z-index when open */
+  [data-radix-select-trigger][data-state="open"] {
+    z-index: 100 !important;
+    position: relative !important;
   }
 }
 
