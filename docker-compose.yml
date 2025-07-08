@@ -1,42 +1,12 @@
-# Docker Compose for Carbon Credit Landing
+# Simple Docker Compose for Carbon Credit Landing
 version: '3.8'
 
 services:
-  carbon-credit-app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+  carbon-credit-landing:
+    build: .
+    container_name: carbon-credit-landing
     ports:
-      - "3000:3000"
+      - "3001:3000"  # Use different port to avoid conflicts
     environment:
       - NODE_ENV=production
-      - NEXT_PUBLIC_BASE_URL=http://localhost:3000
-    env_file:
-      - .env.local
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
-
-  # Development service
-  carbon-credit-dev:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: base
-    ports:
-      - "3000:3000"
-    environment:
-      - NODE_ENV=development
-    env_file:
-      - .env.local
-    volumes:
-      - .:/app
-      - /app/node_modules
-    command: pnpm dev
-    profiles:
-      - dev
-    restart: unless-stopped
+      - NEXT_PUBLIC_BASE_URL=http://localhost:3001
