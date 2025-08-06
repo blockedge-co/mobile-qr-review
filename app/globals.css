@@ -4,16 +4,229 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+  
+  /* Mobile-specific touch improvements */
+  .touch-action-manipulation {
+    touch-action: manipulation;
+  }
+  
+  /* Improved text selection on mobile */
+  .select-text {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+  }
+  
+  /* Disable text selection where needed */
+  .select-none {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  /* Better button touch targets */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Smooth scrolling on mobile */
+  .smooth-scroll {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+  
+  /* Improved focus states for mobile */
+  .focus-visible-ring {
+    @apply focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2;
+  }
+  
+  /* Safe area utilities for iOS devices */
+  .safe-area-inset-top {
+    padding-top: max(1rem, var(--safe-area-inset-top));
+  }
+  
+  .safe-area-inset-bottom {
+    padding-bottom: max(1rem, var(--safe-area-inset-bottom));
+  }
+  
+  .safe-area-inset-left {
+    padding-left: max(1rem, var(--safe-area-inset-left));
+  }
+  
+  .safe-area-inset-right {
+    padding-right: max(1rem, var(--safe-area-inset-right));
+  }
+}
+
+@layer components {
+  /* Mobile-optimized card styles */
+  .mobile-card {
+    @apply rounded-xl border border-gray-200 bg-white shadow-sm;
+    @apply touch-action-manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  /* Mobile-optimized button styles */
+  .mobile-button {
+    @apply touch-target touch-action-manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  /* Mobile-optimized input styles */
+  .mobile-input {
+    @apply touch-action-manipulation;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+  
+  /* Critical dropdown/collapse fixes */
+  html, body {
+    position: relative !important;
+    pointer-events: auto !important;
+  }
+  
+  /* Ensure body can be clicked when dropdowns are open */
+  body[data-scroll-locked] {
+    pointer-events: auto !important;
+  }
+  
+  [data-radix-portal] {
+    z-index: 9999 !important;
+    pointer-events: auto !important;
+    position: fixed !important;
+  }
+  
+  [data-radix-popper-content-wrapper] {
+    z-index: 9999 !important;
+    pointer-events: auto !important;
+    position: fixed !important;
+  }
+  
+  /* Ensure dropdown content always appears above header */
+  [data-radix-select-content] {
+    z-index: 9999 !important;
+    position: fixed !important;
+  }
+  
+  /* Prevent pointer event conflicts */
+  [data-state="open"] {
+    pointer-events: auto !important;
+  }
+  
+  /* Ensure dropdown content is always clickable */
+  [role="listbox"] {
+    z-index: 10000 !important;
+    pointer-events: auto !important;
+    position: relative !important;
+  }
+  
+  /* Z-index hierarchy for proper layering */
+  .header-sticky {
+    z-index: 50 !important;
+  }
+  
+  .dropdown-content {
+    z-index: 9999 !important;
+  }
+  
+  .dropdown-trigger-active {
+    z-index: 100 !important;
+  }
+  
+  [role="option"] {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+    position: relative !important;
+  }
+  
+  /* Fix for dropdown trigger getting stuck */
+  [role="combobox"] {
+    transition: all 150ms ease-in-out !important;
+    position: relative !important;
+    pointer-events: auto !important;
+  }
+  
+  [role="combobox"][data-state="open"] {
+    outline: 2px solid rgb(34 197 94 / 0.5) !important;
+    z-index: 1 !important;
+  }
+  
+  /* Animation performance improvements */
+  [data-radix-select-content] {
+    transform-origin: var(--radix-select-content-transform-origin) !important;
+    animation-duration: 150ms !important;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1) !important;
+    will-change: opacity, transform !important;
+  }
+  
+  /* Prevent scroll lock from blocking interactions */
+  [data-scroll-locked] * {
+    pointer-events: auto !important;
+  }
+  
+  /* Force clickable areas for testing */
+  .playwright-testing body {
+    pointer-events: auto !important;
+  }
+  
+  .playwright-testing html {
+    pointer-events: auto !important;
+  }
+  
+  /* Mobile specific dropdown fixes */
+  @media (max-width: 768px) {
+    [data-radix-select-content] {
+      max-width: calc(100vw - 2rem) !important;
+      max-height: calc(60vh - 2rem) !important;
+      margin: 1rem !important;
+      position: fixed !important;
+    }
+    
+    [role="listbox"] {
+      max-width: calc(100vw - 2rem) !important;
+      max-height: calc(60vh - 2rem) !important;
+      position: relative !important;
+    }
+  }
+  
+  /* Backdrop prevention for better outside clicks */
+  .radix-select-content {
+    isolation: isolate !important;
+  }
+  
+  /* Force dropdown to be above all other content */
+  [data-radix-select-content] {
+    z-index: 9999 !important;
+    position: fixed !important;
+    isolation: isolate !important;
+  }
+  
+  /* Ensure the select trigger gets proper z-index when open */
+  [data-radix-select-trigger][data-state="open"] {
+    z-index: 100 !important;
+    position: relative !important;
+  }
 }
 
 @layer base {
+  /* Safe area support for iOS devices */
   :root {
+    --safe-area-inset-top: env(safe-area-inset-top);
+    --safe-area-inset-right: env(safe-area-inset-right);
+    --safe-area-inset-bottom: env(safe-area-inset-bottom);
+    --safe-area-inset-left: env(safe-area-inset-left);
     --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;
     --card: 0 0% 100%;

@@ -1,0 +1,12 @@
+# Simple Docker Compose for Carbon Credit Landing
+version: '3.8'
+
+services:
+  carbon-credit-landing:
+    build: .
+    container_name: carbon-credit-landing
+    ports:
+      - "3001:3000"  # Use different port to avoid conflicts
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_BASE_URL=http://localhost:3001

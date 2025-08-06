@@ -34,36 +34,40 @@ export function DurationSelection({
 }: DurationSelectionProps) {
   return (
     <Card
-      className={`p-6 border-0 shadow-lg transition-all duration-700 ${
+      className={`p-4 sm:p-6 border-0 shadow-lg transition-all duration-700 mobile-card ${
         isLoaded ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
       }`}
       style={{ animationDelay: "500ms" }}
     >
-      <h2 className="text-xl font-semibold text-gray-900 mb-6">Choose Duration</h2>
+      <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-4 sm:mb-6">Choose Duration</h2>
 
       <Select value={selectedDuration} onValueChange={setSelectedDuration}>
-        <SelectTrigger className="w-full mb-4">
+        <SelectTrigger className="w-full mb-4 mobile-input focus-visible-ring min-h-[48px] touch-target">
           <SelectValue placeholder="Select a duration" />
         </SelectTrigger>
-        <SelectContent className="w-full">
+        <SelectContent className="mobile-card">
           {durations.map((duration) => (
-            <SelectItem key={duration.days} value={duration.days} className="py-4">
-              <div className="w-full space-y-2">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <span className="font-semibold text-gray-900 text-base">{duration.label}</span>
+            <SelectItem 
+              key={duration.days} 
+              value={duration.days} 
+              className="py-3 touch-target focus-visible-ring"
+            >
+              <div className="w-full space-y-2 min-w-0">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold text-gray-900 text-sm truncate">{duration.label}</span>
                       {duration.popular && (
-                        <Badge className="bg-emerald-100 text-emerald-700 border-0 text-xs">
+                        <Badge className="bg-emerald-100 text-emerald-700 border-0 text-xs flex-shrink-0 select-none">
                           Popular
                         </Badge>
                       )}
                     </div>
-                    <div className="text-sm text-gray-500 mt-1">{duration.co2} kg CO₂ offset</div>
+                    <div className="text-xs text-gray-500 mt-0.5 truncate select-none">{duration.co2} kg CO₂ offset</div>
                   </div>
-                  <div className="text-right flex-shrink-0">
-                    <div className="text-2xl font-bold text-emerald-700">฿{duration.price}</div>
-                    <div className="text-xs text-gray-500 mt-1">
+                  <div className="text-right flex-shrink-0 select-none">
+                    <div className="text-xl font-bold text-emerald-700 whitespace-nowrap">฿{duration.price}</div>
+                    <div className="text-xs text-gray-500 mt-0.5 whitespace-nowrap">
                       ฿{Math.round(duration.price / Number.parseInt(duration.days))}/day
                     </div>
                   </div>

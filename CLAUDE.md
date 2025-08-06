@@ -240,6 +240,37 @@ Edit CSS variables in `/app/globals.css` under `:root` and `.dark` selectors.
 - Configure environment variables for production
 - Set up proper error monitoring and logging
 
+## Shortcode Commands
+
+Claude supports these shortcode commands for specialized workflows:
+
+### Session Management
+- `/forward-context` - Save current conversation/context to GitHub issue
+- `/new-session` - Fetch context from last issue/PR and summarize tasks
+- `/compact` - Compress context before switching sessions
+- `/nnn` - Start working on feature number nnn
+
+### Development Modes
+- `/frontend` - UI/UX focus with component design and accessibility
+- `/backend` - API endpoints, database models, and business logic
+- `/debug` - Analyze errors and suggest fixes
+- `/perf` - Performance analysis and optimization
+
+### Testing & Quality
+- `/e2e` - Generate end-to-end test scenarios
+- `/test` - Create unit tests for recent changes
+- `/qa` - Generate QA checklists and test plans
+- `/lint` - Fix linter errors and suggest configurations
+
+### Documentation & Review
+- `/doc` - Create/update documentation
+- `/retrospective` - Write lessons learned
+- `/security` - Security audit and vulnerability scan
+- `/ux` - UX review with usability feedback
+
+### Deployment
+- `/deploy` - Generate CI/CD pipelines and release notes
+
 ## Important Reminders
 
 - Always create a branch for new work
@@ -247,3 +278,4 @@ Edit CSS variables in `/app/globals.css` under `:root` and `.dark` selectors.
 - Create GitHub issues for tracking work
 - Keep commits atomic and well-described
 - Update this documentation as the project evolves
+- Use shortcode commands to switch contexts and modes
