@@ -44,10 +44,10 @@ export function ProjectSelection({
       <h2 className="text-xl font-semibold text-gray-900 mb-6">Select Project</h2>
 
       <Select value={selectedProject} onValueChange={setSelectedProject}>
-        <SelectTrigger className="w-full mb-4">
+        <SelectTrigger className="w-full mb-4 max-w-full">
           <SelectValue placeholder="Select a project" />
         </SelectTrigger>
-        <SelectContent className="w-full">
+        <SelectContent className="w-full max-w-[90vw] sm:max-w-none">
           {projects.map((project) => (
             <SelectItem key={project.id} value={project.id} className="py-4 min-h-[5.5rem]">
               <div className="w-full space-y-3 flex flex-col justify-center min-h-[4.5rem]">
