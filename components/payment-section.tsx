@@ -33,6 +33,9 @@ export function PaymentSection({ isLoaded }: PaymentSectionProps) {
           <span>Bank-grade security • SSL encrypted</span>
         </div>
       </div>
+      <button className="w-full mt-4 py-3 px-6 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 active:bg-blue-800 transition-colors focus:ring-2 focus:ring-blue-500 focus:outline-none text-base sm:text-lg">
+        Proceed to Payment
+      </button>
     </Card>
   )
 }
